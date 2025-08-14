@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf';
 import { useEditorStore } from '@/store/editor-store';
 import { PDFPage, ViewMode, Annotation, TextElement, ImageElement, DrawingElement, FormField } from '@/types';
-import { cn, debounce, throttle } from '@/lib/utils';
+import { cn, debounce, throttle } from '@/lib/utils/index';
 import { 
   ZOOM_PRESETS,
   MIN_ZOOM,
@@ -13,7 +13,7 @@ import {
   RULER_HEIGHT,
   GUIDE_COLOR,
   DEFAULT_GRID_SIZE
-} from '@/lib/constants';
+} from '@/lib/constants/index';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useResizeDetector } from 'react-resize-detector';
 import { VariableSizeList as List } from 'react-window';

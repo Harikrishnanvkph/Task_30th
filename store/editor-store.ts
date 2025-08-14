@@ -23,14 +23,14 @@ import {
   ActionType
 } from '@/types';
 import { pdfManager } from '@/lib/pdf/pdf-manager';
-import { generateId } from '@/lib/utils';
+import { generateId } from '@/lib/utils/index';
 import {
   DEFAULT_ZOOM,
   MAX_HISTORY_SIZE,
   DEFAULT_TOOL,
   DEFAULT_GRID_SIZE,
   DEFAULT_SNAP_DISTANCE
-} from '@/lib/constants';
+} from '@/lib/constants/index';
 
 interface EditorStore extends EditorState {
   // Document

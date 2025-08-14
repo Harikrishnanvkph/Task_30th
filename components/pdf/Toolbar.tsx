@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useEditorStore } from '@/store/editor-store';
 import { Tool, ToolCategory } from '@/types';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/index';
 import { Button } from '@/components/ui/button';
 import {
   DEFAULT_COLOR,
@@ -22,7 +22,7 @@ import {
   FORM_FIELD_TYPES,
   SIGNATURE_TYPES,
   WATERMARK_POSITIONS
-} from '@/lib/constants';
+} from '@/lib/constants/index';
 import {
   FiMousePointer,
   FiType,
@@ -78,7 +78,7 @@ import {
   FiCrop,
   FiSliders,
   FiPenTool,
-  FiHighlighter,
+  FiEdit2,
   FiMessageSquare,
   FiBookmark,
   FiTag,
@@ -163,8 +163,7 @@ import {
   FiUmbrella,
   FiCoffee,
   FiFeather,
-  FiPenTool as FiPen,
-  FiEdit2
+  FiPenTool as FiPen
 } from 'react-icons/fi';
 import {
   HiOutlineDocumentText,
@@ -572,7 +571,7 @@ const TOOLS: Record<string, Tool> = {
   highlight: {
     id: 'highlight',
     name: 'Highlight',
-    icon: 'FiHighlighter',
+    icon: 'FiEdit2',
     category: 'annotation',
     shortcut: 'H',
     isActive: false,
@@ -1117,7 +1116,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
       FiList,
       FiCalendar,
       FiDroplet,
-      FiHighlighter,
+      FiEdit2,
       FiMessageSquare,
       FiUnderline,
       FiUpload,

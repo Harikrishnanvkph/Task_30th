@@ -6,7 +6,7 @@ import { PDFManager } from '@/lib/pdf/pdf-manager';
 import PDFViewer from '@/components/pdf/PDFViewer';
 import Toolbar from '@/components/pdf/Toolbar';
 import Sidebar from '@/components/pdf/Sidebar';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/index';
 import { 
   APP_NAME,
   DEFAULT_ZOOM,
@@ -14,7 +14,7 @@ import {
   MAX_ZOOM,
   KEYBOARD_SHORTCUTS,
   FEATURE_FLAGS
-} from '@/lib/constants';
+} from '@/lib/constants/index';
 import {
   FiMenu,
   FiX,
