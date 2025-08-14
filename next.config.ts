@@ -11,6 +11,13 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  webpack: (config: any) => {
+    // Handle canvas module for pdfjs-dist
+    config.resolve.alias.canvas = false;
+    config.resolve.alias.encoding = false;
+    
+    return config;
+  },
 };
 
 export default nextConfig;
