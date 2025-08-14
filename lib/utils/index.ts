@@ -8,7 +8,7 @@ import {
   LOCAL_STORAGE_PREFIX,
   SESSION_STORAGE_PREFIX,
   CACHE_DURATION
-} from '@/lib/constants';
+} from '@/lib/constants/index';
 
 // Class name utility
 export function cn(...inputs: ClassValue[]) {

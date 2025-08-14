@@ -16,14 +16,14 @@ import {
   PDFPermissions,
   WatermarkPosition
 } from '@/types';
-import { generateId, generateTimestamp } from '@/lib/utils';
+import { generateId, generateTimestamp } from '@/lib/utils/index';
 import { 
   DEFAULT_PAGE_WIDTH, 
   DEFAULT_PAGE_HEIGHT,
   PAPER_SIZES,
   DEFAULT_WATERMARK_OPACITY,
   DEFAULT_WATERMARK_ROTATION
-} from '@/lib/constants';
+} from '@/lib/constants/index';
 
 // Configure PDF.js worker
 if (typeof window !== 'undefined') {

@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { useEditorStore } from '@/store/editor-store';
 import { PDFPage, TextElement, ImageElement, DrawingElement, Annotation, FormField } from '@/types';
-import { cn, formatFileSize, generateId } from '@/lib/utils';
+import { cn, formatFileSize, generateId } from '@/lib/utils/index';
 import { Button } from '@/components/ui/button';
 import {
   FiChevronDown,
