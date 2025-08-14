@@ -1347,7 +1347,7 @@ export function reverse(str: string): string {
   return str.split('').reverse().join('');
 }
 
-export function shuffle(str: string): string {
+export function shuffleString(str: string): string {
   const chars = str.split('');
   for (let i = chars.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -1357,24 +1357,6 @@ export function shuffle(str: string): string {
 }
 
 // Array utilities
-export function chunk<T>(array: T[], size: number): T[][] {
-  const chunks: T[][] = [];
-  for (let i = 0; i < array.length; i += size) {
-    chunks.push(array.slice(i, i + size));
-  }
-  return chunks;
-}
-
-export function flatten<T>(array: any[]): T[] {
-  return array.reduce((flat, item) => {
-    return flat.concat(Array.isArray(item) ? flatten(item) : item);
-  }, []);
-}
-
-export function unique<T>(array: T[]): T[] {
-  return [...new Set(array)];
-}
-
 export function uniqueBy<T>(array: T[], key: keyof T): T[] {
   const seen = new Set();
   return array.filter(item => {
@@ -1458,12 +1440,6 @@ export function range(start: number, end?: number, step: number = 1): number[] {
 }
 
 // Object utilities
-export function omit<T extends object, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> {
-  const result = { ...obj };
-  keys.forEach(key => delete result[key]);
-  return result;
-}
-
 export function merge<T extends object>(...objects: Partial<T>[]): T {
   return Object.assign({}, ...objects) as T;
 }
@@ -1760,15 +1736,6 @@ export function getAge(birthDate: Date): number {
 }
 
 // Color utilities
-export function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : null;
-}
-
 export function hexToHsl(hex: string): { h: number; s: number; l: number } | null {
   const rgb = hexToRgb(hex);
   if (!rgb) return null;
@@ -1964,11 +1931,6 @@ export function joinPaths(...paths: string[]): string {
     })
     .filter(Boolean)
     .join('/');
-}
-
-export function getFileExtension(filename: string): string {
-  const parts = filename.split('.');
-  return parts.length > 1 ? parts[parts.length - 1].toLowerCase() : '';
 }
 
 export function getFilenameWithoutExtension(filename: string): string {
@@ -2399,48 +2361,6 @@ export function pipe<T>(...fns: ((arg: T) => T)[]): (arg: T) => T {
 }
 
 // Async utilities
-export function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-export async function retry<T>(
-  fn: () => Promise<T>,
-  options: {
-    maxAttempts?: number;
-    delay?: number;
-    backoff?: number;
-    onError?: (error: Error, attempt: number) => void;
-  } = {}
-): Promise<T> {
-  const {
-    maxAttempts = 3,
-    delay = 1000,
-    backoff = 2,
-    onError
-  } = options;
-  
-  let lastError: Error;
-  
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    try {
-      return await fn();
-    } catch (error) {
-      lastError = error as Error;
-      
-      if (onError) {
-        onError(lastError, attempt);
-      }
-      
-      if (attempt < maxAttempts) {
-        const waitTime = delay * Math.pow(backoff, attempt - 1);
-        await sleep(waitTime);
-      }
-    }
-  }
-  
-  throw lastError!;
-}
-
 export async function timeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return Promise.race([
     promise,
@@ -2510,43 +2430,6 @@ export function promisify<T>(
       }
     });
   });
-}
-
-export class AsyncQueue<T> {
-  private queue: T[] = [];
-  private resolvers: ((value: T) => void)[] = [];
-  
-  enqueue(item: T): void {
-    if (this.resolvers.length > 0) {
-      const resolver = this.resolvers.shift()!;
-      resolver(item);
-    } else {
-      this.queue.push(item);
-    }
-  }
-  
-  async dequeue(): Promise<T> {
-    if (this.queue.length > 0) {
-      return this.queue.shift()!;
-    }
-    
-    return new Promise(resolve => {
-      this.resolvers.push(resolve);
-    });
-  }
-  
-  get size(): number {
-    return this.queue.length;
-  }
-  
-  get isEmpty(): boolean {
-    return this.queue.length === 0;
-  }
-  
-  clear(): void {
-    this.queue = [];
-    this.resolvers = [];
-  }
 }
 
 export class Semaphore {
@@ -2619,63 +2502,6 @@ export class RateLimiter {
     
     this.tokens = Math.min(this.maxTokens, this.tokens + tokensToAdd);
     this.lastRefill = now;
-  }
-}
-
-// Event emitter
-export class EventEmitter<T extends Record<string, any[]> = Record<string, any[]>> {
-  private events: Map<keyof T, Set<(...args: any[]) => void>> = new Map();
-  
-  on<K extends keyof T>(event: K, listener: (...args: T[K]) => void): () => void {
-    if (!this.events.has(event)) {
-      this.events.set(event, new Set());
-    }
-    
-    this.events.get(event)!.add(listener);
-    
-    return () => this.off(event, listener);
-  }
-  
-  off<K extends keyof T>(event: K, listener: (...args: T[K]) => void): void {
-    const listeners = this.events.get(event);
-    
-    if (listeners) {
-      listeners.delete(listener);
-      
-      if (listeners.size === 0) {
-        this.events.delete(event);
-      }
-    }
-  }
-  
-  emit<K extends keyof T>(event: K, ...args: T[K]): void {
-    const listeners = this.events.get(event);
-    
-    if (listeners) {
-      listeners.forEach(listener => listener(...args));
-    }
-  }
-  
-  once<K extends keyof T>(event: K, listener: (...args: T[K]) => void): () => void {
-    const wrapper = (...args: T[K]) => {
-      listener(...args);
-      this.off(event, wrapper);
-    };
-    
-    return this.on(event, wrapper);
-  }
-  
-  removeAllListeners(event?: keyof T): void {
-    if (event) {
-      this.events.delete(event);
-    } else {
-      this.events.clear();
-    }
-  }
-  
-  listenerCount(event: keyof T): number {
-    const listeners = this.events.get(event);
-    return listeners ? listeners.size : 0;
   }
 }
 
