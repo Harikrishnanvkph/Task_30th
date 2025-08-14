@@ -31,7 +31,7 @@ export const DEFAULT_ZOOM = 1;
 export const ZOOM_STEP = 0.25;
 export const FIT_TO_WIDTH = -1;
 export const FIT_TO_PAGE = -2;
-export const ZOOM_PRESETS = [0.5, 0.75, 1, 1.25, 1.5, 2, 3, 4, 5];
+export const ZOOM_PRESETS = [0.5, 0.75, 1, 1.25, 1.5, 2, 3, 4];
 
 // Tool Constants
 export const DEFAULT_TOOL = 'select';
@@ -54,18 +54,35 @@ export const MAX_FONT_SIZE = 144;
 export const FONT_SIZE_STEP = 1;
 export const FONT_FAMILIES = [
   'Arial',
+  'Helvetica',
   'Times New Roman',
-  'Courier New',
   'Georgia',
+  'Courier New',
   'Verdana',
+  'Tahoma',
+  'Trebuchet MS',
   'Comic Sans MS',
   'Impact',
-  'Trebuchet MS',
-  'Helvetica',
+  'Lucida Console',
   'Palatino',
   'Garamond',
   'Bookman',
   'Avant Garde',
+  'Inter',
+  'Roboto',
+  'Open Sans',
+  'Lato',
+  'Montserrat',
+  'Poppins',
+  'Raleway',
+  'Ubuntu',
+  'Oswald',
+  'Merriweather',
+  'Playfair Display',
+  'Dancing Script',
+  'Pacifico',
+  'Bebas Neue',
+  'Righteous'
 ];
 
 // Color Constants
@@ -77,8 +94,18 @@ export const PRESET_COLORS = [
 ];
 
 export const HIGHLIGHT_COLORS = [
-  '#FFFF00', '#00FF00', '#00FFFF', '#FF00FF', '#FFA500',
-  '#FF69B4', '#87CEEB', '#98FB98', '#DDA0DD', '#F0E68C',
+  '#FFFF00', // Yellow
+  '#00FF00', // Green
+  '#00FFFF', // Cyan
+  '#FF00FF', // Magenta
+  '#FFA500', // Orange
+  '#FF69B4', // Pink
+  '#87CEEB', // Sky Blue
+  '#DDA0DD', // Plum
+  '#F0E68C', // Khaki
+  '#FFB6C1', // Light Pink
+  '#98FB98', // Pale Green
+  '#ADD8E6'  // Light Blue
 ];
 
 // Annotation Constants
@@ -157,7 +184,7 @@ export const MAX_GRID_SIZE = 100;
 export const GRID_SIZE_STEP = 5;
 export const DEFAULT_SNAP_DISTANCE = 5;
 export const RULER_HEIGHT = 20;
-export const GUIDE_COLOR = '#4A90E2';
+export const GUIDE_COLOR = '#0066CC';
 
 // Storage Constants
 export const LOCAL_STORAGE_PREFIX = 'pdf_editor_';
@@ -485,3 +512,214 @@ export const FEATURE_FLAGS = {
   TEMPLATES: true,
   WATERMARKS: true,
 } as const;
+
+export const CORNER_RADIUS_OPTIONS = [0, 2, 4, 6, 8, 10, 12, 16, 20, 24];
+export const OPACITY_OPTIONS = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
+export const BLUR_OPTIONS = [0, 1, 2, 3, 4, 5, 10, 15, 20];
+export const SHADOW_OPTIONS = [
+  { name: 'None', value: 'none' },
+  { name: 'Small', value: '0 1px 2px rgba(0,0,0,0.1)' },
+  { name: 'Medium', value: '0 4px 6px rgba(0,0,0,0.1)' },
+  { name: 'Large', value: '0 10px 15px rgba(0,0,0,0.1)' },
+  { name: 'Extra Large', value: '0 20px 25px rgba(0,0,0,0.1)' }
+];
+
+export const BORDER_STYLES = [
+  'solid',
+  'dashed',
+  'dotted',
+  'double',
+  'groove',
+  'ridge',
+  'inset',
+  'outset'
+];
+
+export const TEXT_DECORATIONS = [
+  'none',
+  'underline',
+  'overline',
+  'line-through',
+  'underline overline'
+];
+
+export const FONT_WEIGHTS = [
+  { name: 'Thin', value: 100 },
+  { name: 'Extra Light', value: 200 },
+  { name: 'Light', value: 300 },
+  { name: 'Normal', value: 400 },
+  { name: 'Medium', value: 500 },
+  { name: 'Semi Bold', value: 600 },
+  { name: 'Bold', value: 700 },
+  { name: 'Extra Bold', value: 800 },
+  { name: 'Black', value: 900 }
+];
+
+export const LINE_HEIGHTS = [
+  { name: 'Single', value: 1 },
+  { name: '1.15', value: 1.15 },
+  { name: '1.5', value: 1.5 },
+  { name: 'Double', value: 2 },
+  { name: '2.5', value: 2.5 },
+  { name: 'Triple', value: 3 }
+];
+
+export const LETTER_SPACINGS = [
+  { name: 'Tight', value: -0.05 },
+  { name: 'Normal', value: 0 },
+  { name: 'Wide', value: 0.05 },
+  { name: 'Wider', value: 0.1 },
+  { name: 'Widest', value: 0.2 }
+];
+
+export const BLEND_MODES = [
+  'normal',
+  'multiply',
+  'screen',
+  'overlay',
+  'darken',
+  'lighten',
+  'color-dodge',
+  'color-burn',
+  'hard-light',
+  'soft-light',
+  'difference',
+  'exclusion',
+  'hue',
+  'saturation',
+  'color',
+  'luminosity'
+];
+
+export const CURSOR_STYLES = [
+  'default',
+  'pointer',
+  'crosshair',
+  'move',
+  'text',
+  'wait',
+  'help',
+  'not-allowed',
+  'zoom-in',
+  'zoom-out',
+  'grab',
+  'grabbing'
+];
+
+export const SUPPORTED_IMAGE_FORMATS = [
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+  'image/svg+xml',
+  'image/bmp'
+];
+
+export const SUPPORTED_DOCUMENT_FORMATS = [
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.ms-powerpoint',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'text/plain',
+  'text/html',
+  'text/csv'
+];
+
+export const SUPPORTED_VIDEO_FORMATS = [
+  'video/mp4',
+  'video/webm',
+  'video/ogg',
+  'video/quicktime'
+];
+
+export const SUPPORTED_AUDIO_FORMATS = [
+  'audio/mpeg',
+  'audio/wav',
+  'audio/ogg',
+  'audio/webm',
+  'audio/aac'
+];
+
+export const LANGUAGE_OPTIONS = [
+  { code: 'en', name: 'English' },
+  { code: 'es', name: 'Español' },
+  { code: 'fr', name: 'Français' },
+  { code: 'de', name: 'Deutsch' },
+  { code: 'it', name: 'Italiano' },
+  { code: 'pt', name: 'Português' },
+  { code: 'ru', name: 'Русский' },
+  { code: 'zh', name: '中文' },
+  { code: 'ja', name: '日本語' },
+  { code: 'ko', name: '한국어' },
+  { code: 'ar', name: 'العربية' },
+  { code: 'hi', name: 'हिन्दी' }
+];
+
+export const TIMEZONE_OPTIONS = [
+  { value: 'UTC', label: 'UTC' },
+  { value: 'America/New_York', label: 'Eastern Time' },
+  { value: 'America/Chicago', label: 'Central Time' },
+  { value: 'America/Denver', label: 'Mountain Time' },
+  { value: 'America/Los_Angeles', label: 'Pacific Time' },
+  { value: 'Europe/London', label: 'London' },
+  { value: 'Europe/Paris', label: 'Paris' },
+  { value: 'Europe/Berlin', label: 'Berlin' },
+  { value: 'Asia/Tokyo', label: 'Tokyo' },
+  { value: 'Asia/Shanghai', label: 'Shanghai' },
+  { value: 'Asia/Dubai', label: 'Dubai' },
+  { value: 'Australia/Sydney', label: 'Sydney' }
+];
+
+export const DATE_FORMATS = [
+  'MM/DD/YYYY',
+  'DD/MM/YYYY',
+  'YYYY-MM-DD',
+  'DD-MM-YYYY',
+  'MM-DD-YYYY',
+  'YYYY/MM/DD',
+  'DD.MM.YYYY',
+  'MM.DD.YYYY',
+  'YYYY.MM.DD'
+];
+
+export const TIME_FORMATS = [
+  'HH:mm',
+  'HH:mm:ss',
+  'hh:mm A',
+  'hh:mm:ss A',
+  'H:mm',
+  'h:mm A'
+];
+
+export const CURRENCY_SYMBOLS = [
+  { code: 'USD', symbol: '$', name: 'US Dollar' },
+  { code: 'EUR', symbol: '€', name: 'Euro' },
+  { code: 'GBP', symbol: '£', name: 'British Pound' },
+  { code: 'JPY', symbol: '¥', name: 'Japanese Yen' },
+  { code: 'CNY', symbol: '¥', name: 'Chinese Yuan' },
+  { code: 'INR', symbol: '₹', name: 'Indian Rupee' },
+  { code: 'KRW', symbol: '₩', name: 'South Korean Won' },
+  { code: 'RUB', symbol: '₽', name: 'Russian Ruble' },
+  { code: 'BRL', symbol: 'R$', name: 'Brazilian Real' },
+  { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar' },
+  { code: 'AUD', symbol: 'A$', name: 'Australian Dollar' },
+  { code: 'CHF', symbol: 'Fr', name: 'Swiss Franc' }
+];
+
+export const MATH_SYMBOLS = [
+  '+', '-', '×', '÷', '=', '≠', '<', '>', '≤', '≥',
+  '±', '∓', '∞', '∝', '∑', '∏', '∫', '∂', '∇', '√',
+  'π', 'θ', 'φ', 'α', 'β', 'γ', 'δ', 'ε', 'λ', 'μ',
+  '∈', '∉', '⊂', '⊃', '∪', '∩', '∧', '∨', '¬', '∀', '∃'
+];
+
+export const SPECIAL_CHARACTERS = [
+  '©', '®', '™', '℠', '§', '¶', '†', '‡', '•', '°',
+  '¢', '£', '€', '¥', '¤', '№', '℮', '‰', '‱', '℅',
+  '←', '↑', '→', '↓', '↔', '↕', '⇐', '⇑', '⇒', '⇓',
+  '♠', '♣', '♥', '♦', '♪', '♫', '☀', '☁', '☂', '☃',
+  '★', '☆', '✓', '✗', '✉', '✎', '✂', '❤', '☎', '⚠'
+];
