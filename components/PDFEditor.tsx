@@ -419,7 +419,7 @@ interface PDFEditorProps {
   };
 }
 
-interface EditorLayout {
+interface EditorLayoutBase {
   sidebarLeft: boolean;
   sidebarRight: boolean;
   sidebarLeftWidth: number;
@@ -430,6 +430,10 @@ interface EditorLayout {
   fullscreen: boolean;
   zenMode: boolean;
 }
+
+type SidebarKey = `sidebar${'Left' | 'Right'}`;
+
+type EditorLayout = EditorLayoutBase & { [K in SidebarKey]: EditorLayoutBase[K extends `sidebar${infer _}` ? K extends 'sidebarLeft' ? 'sidebarLeft' : 'sidebarRight' : never] };
 
 interface EditorPreferences {
   theme: 'light' | 'dark' | 'system';
@@ -805,7 +809,7 @@ export const PDFEditor: React.FC<PDFEditorProps> = ({
       if (!pdfBytes) {
         throw new Error('Failed to save document');
       }
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const blob = new Blob([new Uint8Array(pdfBytes).buffer], { type: 'application/pdf' });
       if (onSave) {
         onSave(blob);
       } else {
@@ -868,7 +872,9 @@ export const PDFEditor: React.FC<PDFEditorProps> = ({
   const toggleSidebar = useCallback((side: 'left' | 'right') => {
     setLayout(prev => ({
       ...prev,
-      [`sidebar${side.charAt(0)?.toUpperCase() + side.slice(1)}`]: !prev[`sidebar${side.charAt(0)?.toUpperCase() + side.slice(1)}`]
+      [`sidebar${side.charAt(0)?.toUpperCase() + side.slice(1)}` as SidebarKey]: !prev[
+        `sidebar${side.charAt(0)?.toUpperCase() + side.slice(1)}` as SidebarKey
+      ]
     }));
   }, []);
 

@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 
 // Dynamically import PDFEditor to avoid SSR issues
 const PDFEditor = dynamic(() => import('@/components/PDFEditor'), {
@@ -21,6 +21,14 @@ function LoadingScreen() {
 }
 
 export default function Home() {
+  useEffect(() => {
+    if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        registrations.forEach(reg => reg.unregister());
+      }).catch(() => {});
+    }
+  }, []);
+
   return (
     <Suspense fallback={<LoadingScreen />}>
       <PDFEditor

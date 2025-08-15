@@ -2735,5 +2735,26 @@ export default {
   canvasToBlob,
   
   // Convert to points
-  convertToPoints
+  convertToPoints,
+  
+  // Format time
+  formatTime,
+  
+  // Format number
+  formatNumber,
+  
+  // Format currency
+  formatCurrency,
+  
+  // Format percentage
+  formatPercentage,
+  
+  // Format bytes
+  formatBytes,
+  
+  // Format duration
+  formatDuration,
+  
+  // Format distance
+  formatDistance
 };
