@@ -41,11 +41,15 @@ interface EditorStore extends EditorState {
   user: User | null;
   preferences: UserPreferences | null;
   
+  // State
+  error: string | null;
+  
   // Actions - Document
   loadDocument: (source: File | string | ArrayBuffer) => Promise<void>;
   createNewDocument: (pageCount?: number) => Promise<void>;
+  createDocument: (pageCount?: number) => Promise<void>; // Alias for createNewDocument
   saveDocument: () => Promise<Uint8Array | null>;
-  exportDocument: (format: string, options?: any) => Promise<void>;
+  exportDocument: (format: string, options?: any) => Promise<Blob | null>;
   closeDocument: () => void;
   
   // Actions - Pages
@@ -66,8 +70,10 @@ interface EditorStore extends EditorState {
   selectElement: (elementId: string) => void;
   selectMultipleElements: (elementIds: string[]) => void;
   clearSelection: () => void;
+  deselectAll: () => void; // Alias for clearSelection
   selectAll: () => void;
   deleteSelected: () => void;
+  deleteSelection: () => void; // Alias for deleteSelected
   
   // Actions - Clipboard
   copy: () => void;
@@ -91,6 +97,8 @@ interface EditorStore extends EditorState {
   toggleSnapToGrid: () => void;
   toggleRulers: () => void;
   toggleGuides: () => void;
+  toggleFullscreen: () => void;
+  resetView: () => void;
   addGuide: (guide: Guide) => void;
   removeGuide: (guideId: string) => void;
   updateGuide: (guideId: string, updates: Partial<Guide>) => void;
@@ -174,6 +182,7 @@ export const useEditorStore = create<EditorStore>()(
         currentPageId: null,
         user: null,
         preferences: null,
+        error: null,
 
         // Document actions
         loadDocument: async (source) => {
@@ -226,6 +235,11 @@ export const useEditorStore = create<EditorStore>()(
           }
         },
 
+        // Alias for createNewDocument
+        createDocument: async (pageCount?: number) => {
+          return get().createNewDocument(pageCount);
+        },
+
         saveDocument: async () => {
           const { document } = get();
           if (!document) return null;
@@ -254,36 +268,33 @@ export const useEditorStore = create<EditorStore>()(
 
         exportDocument: async (format, options) => {
           const { document } = get();
-          if (!document) return;
+          if (!document) return null;
           
           set((state) => {
             state.isSaving = true;
           });
           
           try {
+            let blob: Blob;
+            
             if (format === 'pdf') {
               const pdfBytes = await pdfManager.save(options);
-              // Handle download
-              const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-              const url = URL.createObjectURL(blob);
-              const link = document.createElement('a');
-              link.href = url;
-              link.download = `${document.name}.pdf`;
-              link.click();
-              URL.revokeObjectURL(url);
+              blob = new Blob([pdfBytes], { type: 'application/pdf' });
             } else if (format === 'png' || format === 'jpg') {
               const { currentPage } = get();
               const imageData = await pdfManager.exportAsImage(currentPage + 1, format);
-              // Handle download
-              const link = document.createElement('a');
-              link.href = imageData;
-              link.download = `${document.name}_page_${currentPage + 1}.${format}`;
-              link.click();
+              // Convert data URL to blob
+              const response = await fetch(imageData);
+              blob = await response.blob();
+            } else {
+              throw new Error(`Unsupported format: ${format}`);
             }
             
             set((state) => {
               state.isSaving = false;
             });
+            
+            return blob;
           } catch (error) {
             console.error('Failed to export document:', error);
             set((state) => {
@@ -535,6 +546,11 @@ export const useEditorStore = create<EditorStore>()(
           });
         },
 
+        // Alias for clearSelection
+        deselectAll: () => {
+          get().clearSelection();
+        },
+
         selectAll: () => {
           set((state) => {
             if (state.document && state.currentPageId) {
@@ -572,6 +588,11 @@ export const useEditorStore = create<EditorStore>()(
             data: { elementIds: selectedElements },
             description: 'Delete selected elements'
           });
+        },
+
+        // Alias for deleteSelected
+        deleteSelection: () => {
+          get().deleteSelected();
         },
 
         // Clipboard actions
@@ -736,6 +757,26 @@ export const useEditorStore = create<EditorStore>()(
         toggleGuides: () => {
           set((state) => {
             state.guidesEnabled = !state.guidesEnabled;
+          });
+        },
+
+        toggleFullscreen: () => {
+          // Toggle fullscreen mode
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+          } else {
+            document.exitFullscreen();
+          }
+        },
+
+        resetView: () => {
+          set((state) => {
+            state.zoom = DEFAULT_ZOOM;
+            state.viewMode = 'single';
+            state.currentPage = 0;
+            if (state.document && state.document.pages.length > 0) {
+              state.currentPageId = state.document.pages[0].id;
+            }
           });
         },
 

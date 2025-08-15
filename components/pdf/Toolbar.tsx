@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { useEditorStore } from '@/store/editor-store';
 import { Tool, ToolCategory } from '@/types';
 import { cn } from '@/lib/utils/index';
@@ -151,8 +151,8 @@ import {
   FiShoppingCart,
   FiGift,
   FiAward,
-  FiTrophy,
-  FiMedal,
+  FiStar,
+  FiTarget,
   FiZap,
   FiSun,
   FiMoon,
@@ -190,7 +190,7 @@ import {
   HiOutlineVolumeUp,
   HiOutlinePhotograph,
   HiOutlineFilm,
-  HiOutlineMusicNote,
+  HiOutlineBookOpen,
   HiOutlineBookOpen,
   HiOutlineNewspaper,
   HiOutlineTicket,
@@ -283,7 +283,7 @@ import {
   RiDonutChartLine,
   RiBubbleChartLine,
   RiScatterChartLine,
-  RiRadarChartLine,
+  RiBarChartLine,
   RiStackLine,
   RiFlowChart,
   RiMindMap,
