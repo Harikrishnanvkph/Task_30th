@@ -484,9 +484,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   // Get history items
   const historyItems = useMemo(() => {
-    return history.slice(0, historyLimit).map((item, index) => ({
+    const historyArray = history?.past || [];
+    return historyArray.slice(0, historyLimit).map((item, index) => ({
       id: `history-${index}`,
-      action: item.action || 'Unknown Action',
+      action: item.type || 'Unknown Action',
       timestamp: item.timestamp || new Date(),
       description: item.description || '',
       canUndo: index < historyIndex,
