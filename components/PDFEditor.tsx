@@ -151,7 +151,6 @@ import {
   FiShoppingBag,
   FiGift,
   FiAward,
-  FiTrophy,
   FiStar,
   FiHeart,
   FiThumbsUp,
@@ -300,7 +299,6 @@ import {
   RiPieChartLine,
   RiBubbleChartLine,
   RiDonutChartLine,
-  RiRadarChartLine,
   RiDatabaseLine,
   RiServerLine,
   RiCloudLine,
@@ -334,9 +332,8 @@ import {
   RiShieldUserLine,
   RiUserLine,
   RiUserAddLine,
-  RiUserReduceLine,
-  RiUserFollowLine,
   RiUserUnfollowLine,
+  RiUserFollowLine,
   RiUserSharedLine,
   RiUserReceivedLine,
   RiUserSearchLine,
@@ -804,13 +801,17 @@ export const PDFEditor: React.FC<PDFEditorProps> = ({
     if (readOnly) return;
     
     try {
-      const blob = await saveDocument();
+      const pdfBytes = await saveDocument();
+      if (!pdfBytes) {
+        throw new Error('Failed to save document');
+      }
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       if (onSave) {
         onSave(blob);
       } else {
         // Download file
         const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        const a = window.document.createElement('a');
         a.href = url;
         a.download = `${document?.name || 'document'}.pdf`;
         a.click();
@@ -834,12 +835,15 @@ export const PDFEditor: React.FC<PDFEditorProps> = ({
   const handleExport = useCallback(async (format: string) => {
     try {
       const blob = await exportDocument(format);
+      if (!blob) {
+        throw new Error('Failed to export document');
+      }
       if (onExport) {
         onExport(blob, format);
       } else {
         // Download file
         const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        const a = window.document.createElement('a');
         a.href = url;
         a.download = `${document?.name || 'document'}.${format}`;
         a.click();
@@ -870,11 +874,11 @@ export const PDFEditor: React.FC<PDFEditorProps> = ({
 
   // Toggle fullscreen mode
   const toggleFullscreenMode = useCallback(() => {
-    if (!document.fullscreenElement) {
+    if (!window.document.fullscreenElement) {
       editorRef.current?.requestFullscreen();
       setLayout(prev => ({ ...prev, fullscreen: true }));
     } else {
-      document.exitFullscreen();
+      window.document.exitFullscreen();
       setLayout(prev => ({ ...prev, fullscreen: false }));
     }
   }, []);

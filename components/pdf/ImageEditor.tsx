@@ -371,7 +371,7 @@ import {
   HiOutlineViewList as HiViewList,
   HiOutlineWifi,
   HiOutlineRss,
-  HiOutlineSignal,
+  HiOutlineWifi,
   HiOutlineStatusOffline,
   HiOutlineStatusOnline,
   HiOutlineSupport,
