@@ -347,7 +347,8 @@ import {
   RiShareBoxLine,
   RiShareForwardLine,
   RiSendPlaneLine,
-  RiSendPlane2Line
+  RiSendPlane2Line,
+  RiRulerLine
 } from 'react-icons/ri';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HexColorPicker } from 'react-colorful';
