@@ -207,7 +207,9 @@ import {
   RiGuideLine,
   RiDashboardLine,
   RiDashboard2Line,
-  RiDashboard3Line
+  RiDashboard3Line,
+  RiFolderLine,
+  RiFolderOpenLine
 } from 'react-icons/ri';
 import { motion, AnimatePresence, Reorder } from 'framer-motion';
 import * as Tabs from '@radix-ui/react-tabs';
