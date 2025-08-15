@@ -30,8 +30,6 @@ import {
   FiMove,
   FiRotateCw,
   FiRotateCcw,
-  FiFlipHorizontal,
-  FiFlipVertical,
   FiAlignLeft,
   FiAlignCenter,
   FiAlignRight,
@@ -98,7 +96,10 @@ import {
   FiGitBranch,
   FiGitCommit,
   FiGitMerge,
-  FiGitPullRequest
+  FiGitPullRequest,
+  FiCornerUpLeft,
+  FiCornerUpRight,
+  FiChevronLeft
 } from 'react-icons/fi';
 import {
   RiPagesLine,

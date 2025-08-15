@@ -279,7 +279,7 @@ export const useEditorStore = create<EditorStore>()(
             
             if (format === 'pdf') {
               const pdfBytes = await pdfManager.save(options);
-              blob = new Blob([pdfBytes], { type: 'application/pdf' });
+              blob = new Blob([new Uint8Array(pdfBytes).buffer], { type: 'application/pdf' });
             } else if (format === 'png' || format === 'jpg') {
               const { currentPage } = get();
               const imageData = await pdfManager.exportAsImage(currentPage + 1, format);

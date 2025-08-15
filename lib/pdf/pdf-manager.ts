@@ -1291,7 +1291,12 @@ export class PDFManager {
     if (metadata.title) this.document.setTitle(metadata.title);
     if (metadata.author) this.document.setAuthor(metadata.author);
     if (metadata.subject) this.document.setSubject(metadata.subject);
-    if (metadata.keywords) this.document.setKeywords(metadata.keywords.join(', '));
+    if (metadata.keywords) {
+      const keywords = Array.isArray(metadata.keywords)
+        ? metadata.keywords
+        : [metadata.keywords];
+      this.document.setKeywords(keywords.join(', '));
+    }
     if (metadata.creator) this.document.setCreator(metadata.creator);
     if (metadata.producer) this.document.setProducer(metadata.producer);
     if (metadata.creationDate) this.document.setCreationDate(metadata.creationDate);

@@ -1722,7 +1722,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
               {currentTool ? `Active: ${currentTool.name}` : 'Select a tool'}
             </span>
             <button
-              onClick={() => toast.info('Keyboard shortcuts:\nV - Select\nT - Text\nP - Pen\nR - Rectangle\nC - Circle')}
+              onClick={() => toast('Keyboard shortcuts:\nV - Select\nT - Text\nP - Pen\nR - Rectangle\nC - Circle')}
               className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded"
             >
               <FiHelpCircle className="w-3 h-3" />
