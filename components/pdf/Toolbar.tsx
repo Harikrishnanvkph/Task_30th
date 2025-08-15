@@ -283,7 +283,6 @@ import {
   RiDonutChartLine,
   RiBubbleChartLine,
   RiScatterChartLine,
-  RiBarChartLine,
   RiStackLine,
   RiFlowChart,
   RiMindMap,
@@ -348,7 +347,9 @@ import {
   RiShareForwardLine,
   RiSendPlaneLine,
   RiSendPlane2Line,
-  RiRulerLine
+  RiRulerLine,
+  RiQuillPenLine,
+  RiAwardLine
 } from 'react-icons/ri';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HexColorPicker } from 'react-colorful';
@@ -707,7 +708,7 @@ const TOOLS: Record<string, Tool> = {
   signature: {
     id: 'signature',
     name: 'Signature Field',
-    icon: 'RiPenNibLine',
+    icon: 'RiQuillPenLine',
     category: 'form',
     isActive: false,
     isEnabled: true,
@@ -786,7 +787,7 @@ const TOOLS: Record<string, Tool> = {
   stamp: {
     id: 'stamp',
     name: 'Stamp',
-    icon: 'RiStampLine',
+    icon: 'RiAwardLine',
     category: 'annotation',
     isActive: false,
     isEnabled: true,
@@ -1132,8 +1133,8 @@ export const Toolbar: React.FC<ToolbarProps> = ({
       RiStrikethrough,
       RiInputMethodLine,
       RiRadioButtonLine,
-      RiPenNibLine,
-      RiStampLine,
+      RiQuillPenLine,
+      RiAwardLine,
       RiRulerLine,
       RiShape2Line,
       RiRectangleLine
