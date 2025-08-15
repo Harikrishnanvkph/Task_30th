@@ -868,7 +868,7 @@ export const PDFEditor: React.FC<PDFEditorProps> = ({
   const toggleSidebar = useCallback((side: 'left' | 'right') => {
     setLayout(prev => ({
       ...prev,
-      [`sidebar${side.charAt(0).toUpperCase() + side.slice(1)}`]: !prev[`sidebar${side.charAt(0).toUpperCase() + side.slice(1)}`]
+      [`sidebar${side.charAt(0)?.toUpperCase() + side.slice(1)}`]: !prev[`sidebar${side.charAt(0)?.toUpperCase() + side.slice(1)}`]
     }));
   }, []);
 
@@ -1329,7 +1329,7 @@ export const PDFEditor: React.FC<PDFEditorProps> = ({
                       alt={user.name}
                     />
                     <Avatar.Fallback className="w-full h-full rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-xs font-medium">
-                      {user.name.charAt(0).toUpperCase()}
+                      {user.name?.charAt(0)?.toUpperCase() || 'U'}
                     </Avatar.Fallback>
                   </Avatar.Root>
                   <span className="text-sm font-medium">{user.name}</span>
