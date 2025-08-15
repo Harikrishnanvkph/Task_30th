@@ -564,14 +564,15 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
 
   // Get drawing bounds
   const getDrawingBounds = (drawing: DrawingElement) => {
-    const xs = drawing.points.map(p => p.x);
-    const ys = drawing.points.map(p => p.y);
+    const points = drawing.points || [];
+    const xs = points.map(p => p.x);
+    const ys = points.map(p => p.y);
     
     return {
-      minX: Math.min(...xs),
-      maxX: Math.max(...xs),
-      minY: Math.min(...ys),
-      maxY: Math.max(...ys),
+      minX: xs.length > 0 ? Math.min(...xs) : 0,
+      maxX: xs.length > 0 ? Math.max(...xs) : 0,
+      minY: ys.length > 0 ? Math.min(...ys) : 0,
+      maxY: ys.length > 0 ? Math.max(...ys) : 0,
     };
   };
 
@@ -756,7 +757,7 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
           >
             {drawing.type === 'pen' || drawing.type === 'pencil' ? (
               <path
-                d={`M ${drawing.points.map(p => `${p.x * zoom},${p.y * zoom}`).join(' L ')}`}
+                d={`M ${(drawing.points || []).map(p => `${p.x * zoom},${p.y * zoom}`).join(' L ')}`}
                 stroke={drawing.strokeColor}
                 strokeWidth={drawing.strokeWidth * zoom}
                 fill="none"

@@ -334,7 +334,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       allLayers.push({
         id: text.id,
         type: 'text',
-        name: text.content.substring(0, 20) || 'Text Layer',
+        name: text.content?.substring(0, 20) || 'Text Layer',
         visible: text.visible !== false,
         locked: text.locked || false,
         selected: selectedElements.includes(text.id),
@@ -420,7 +420,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       return Object.entries(grouped).map(([type, layers]) => ({
         id: `group-${type}`,
         type: type as any,
-        name: `${type.charAt(0).toUpperCase() + type.slice(1)} Layers`,
+        name: `${type.charAt(0)?.toUpperCase() + type.slice(1)} Layers`,
         visible: true,
         locked: false,
         selected: false,
