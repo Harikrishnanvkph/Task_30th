@@ -919,13 +919,60 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
   // Render view based on mode
   const renderView = useMemo(() => {
     if (!document) return null;
-    
+
+    // If a real PDF is loaded, render actual pages via react-pdf so users can see the PDF content
+    if (document.url) {
+      const renderReactPdfPages = () => {
+        switch (viewMode) {
+          case 'single':
+            const pageNum = (document.pages.find(p => p.id === currentPageId)?.pageNumber) || 1;
+            return (
+              <Page pageNumber={pageNum} width={pageViewports.get(currentPageId || '')?.width} renderMode={renderMode} />
+            );
+          case 'two-page':
+            const idx = document.pages.findIndex(p => p.id === currentPageId);
+            const left = document.pages[idx];
+            const right = document.pages[idx + 1];
+            return (
+              <div className="flex gap-5">
+                {left && <Page pageNumber={left.pageNumber} renderMode={renderMode} />}
+                {right && <Page pageNumber={right.pageNumber} renderMode={renderMode} />}
+              </div>
+            );
+          case 'thumbnail':
+          case 'continuous':
+          default:
+            return (
+              <div className="space-y-5">
+                {Array.from({ length: numPages }, (_, i) => (
+                  <div key={i} className="shadow-lg">
+                    <Page pageNumber={i + 1} renderMode={renderMode} />
+                  </div>
+                ))}
+              </div>
+            );
+        }
+      };
+
+      return (
+        <Document
+          file={document.url}
+          onLoadSuccess={onDocumentLoadSuccess}
+          onLoadError={(e) => setError(String(e))}
+          loading={<div className="text-gray-600">Loading PDF...</div>}
+          error={<div className="text-red-600">Failed to load PDF</div>}
+        >
+          {renderReactPdfPages()}
+        </Document>
+      );
+    }
+
+    // Fallback to synthetic page rendering (for blank/new documents)
     switch (viewMode) {
       case 'single':
         const currentPageData = document.pages.find(p => p.id === currentPageId);
         if (!currentPageData) return null;
         return renderPageContent(currentPageData);
-        
       case 'continuous':
         return (
           <div className="space-y-5">
@@ -936,12 +983,10 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
             ))}
           </div>
         );
-        
       case 'two-page':
         const currentIndex = document.pages.findIndex(p => p.id === currentPageId);
         const leftPage = document.pages[currentIndex];
         const rightPage = document.pages[currentIndex + 1];
-        
         return (
           <div className="flex gap-5">
             {leftPage && (
@@ -956,7 +1001,6 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
             )}
           </div>
         );
-        
       case 'thumbnail':
         return (
           <div className="grid grid-cols-4 gap-4">
@@ -977,11 +1021,10 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
             ))}
           </div>
         );
-        
       default:
         return null;
     }
-  }, [document, viewMode, currentPageId, renderPageContent, navigateToPage]);
+  }, [document, viewMode, currentPageId, renderPageContent, navigateToPage, pageViewports, numPages, renderMode, onDocumentLoadSuccess]);
 
   // Effects
   useEffect(() => {

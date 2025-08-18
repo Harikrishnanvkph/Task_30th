@@ -47,6 +47,8 @@ export class PDFManager {
   private images: Map<string, PDFImage> = new Map();
   private isModified = false;
   private documentId: string = '';
+  private documentUrl: string | null = null;
+  private loadedBytes: ArrayBuffer | null = null;
 
   constructor() {
     this.documentId = generateId();
@@ -59,12 +61,20 @@ export class PDFManager {
       
       if (source instanceof File) {
         pdfBytes = await source.arrayBuffer();
+        // Create a blob URL for react-pdf rendering
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        this.documentUrl = URL.createObjectURL(blob);
       } else if (typeof source === 'string') {
         const response = await fetch(source);
         pdfBytes = await response.arrayBuffer();
+        this.documentUrl = source;
       } else {
         pdfBytes = source;
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        this.documentUrl = URL.createObjectURL(blob);
       }
+
+      this.loadedBytes = pdfBytes;
 
       // Load with pdf-lib for editing
       this.document = await PDFDocument.load(pdfBytes);
@@ -238,6 +248,12 @@ export class PDFManager {
           }));
           
           this.textElements.set(pageId, textElements);
+          // Also store on the page object so UI can render immediately
+          const storedPage = this.pages.get(pageId);
+          if (storedPage) {
+            storedPage.text = textElements;
+            this.pages.set(pageId, storedPage);
+          }
         } catch (error) {
           console.error(`Error extracting text from page ${i + 1}:`, error);
         }
@@ -288,6 +304,7 @@ export class PDFManager {
     return {
       id: this.documentId,
       name: this.metadata?.title || 'Untitled',
+      url: this.documentUrl || undefined,
       pages: pageArray,
       metadata: this.metadata!,
       annotations: this.getAllAnnotations(),
